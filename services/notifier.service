@@ -1,0 +1,13 @@
+[Unit]
+Description=notifier
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill testnotif
+ExecStartPre=-/usr/bin/docker rm testnotif
+ExecStartPre=/usr/bin/docker pull jpgouigoux/notifier
+ExecStart=/usr/bin/docker run -e SMTP_AUTH_LOGIN=votre.identifiant@gmail.com -e SMTP_AUTH_PASSWORD=votre.mot.de.passe --link testreport:reporting --name testnotif jpgouigoux/notifier
+ExecStop=-/usr/bin/docker stop testnotif
+TimeoutStartSec=900
+
+[X-Fleet]
+MachineMetadata=master=true

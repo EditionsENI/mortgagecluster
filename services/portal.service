@@ -1,0 +1,13 @@
+[Unit]
+Description=portal
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill testportal
+ExecStartPre=-/usr/bin/docker rm testportal
+ExecStartPre=/usr/bin/docker pull jpgouigoux/portal
+ExecStart=/usr/bin/docker run -p 8080:8080 --link testdb:mongo --link testnotif:notifier --name testportal jpgouigoux/portal
+ExecStop=-/usr/bin/docker stop testportal
+TimeoutStartSec=900
+
+[X-Fleet]
+MachineMetadata=master=true

@@ -1,0 +1,13 @@
+[Unit]
+Description=calculator
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill testcalc
+ExecStartPre=-/usr/bin/docker rm testcalc
+ExecStartPre=/usr/bin/docker pull jpgouigoux/calculator
+ExecStart=/usr/bin/docker run -e URLOptimizerJobs=http://mortgagecluster.cloudapp.net:5004/api/Jobs/ --name testcalc jpgouigoux/calculator
+ExecStop=-/usr/bin/docker stop testcalc
+TimeoutStartSec=900
+
+[X-Fleet]
+X-Conflicts=calculator@*.service

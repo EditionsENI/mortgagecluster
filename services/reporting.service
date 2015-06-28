@@ -1,0 +1,13 @@
+[Unit]
+Description=reporting
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill testreport
+ExecStartPre=-/usr/bin/docker rm testreport
+ExecStartPre=/usr/bin/docker pull jpgouigoux/reporting
+ExecStart=/usr/bin/docker run --link testoptim:optimizer --name testreport jpgouigoux/reporting
+ExecStop=-/usr/bin/docker stop testreport
+TimeoutStartSec=900
+
+[X-Fleet]
+MachineMetadata=master=true
